@@ -1,6 +1,10 @@
 package com.data;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * 二维数组转稀疏数组
  */
@@ -51,6 +55,29 @@ public class SparseArr {
             System.out.printf("%d\t%d\t%d\t\n",row[0],row[1],row[2]);
         }
         System.out.println();
+        /**
+         * 将稀疏数组存放到磁盘上
+         */
+        FileWriter writer=null;
+        try {
+            File file = new File("data.txt");
+            writer = new FileWriter(file);
+            for (int[] row : sparseArr) {
+                writer.write( row[0]+"\t "+row[1]+"\t "+row[2]);
+                writer.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(writer!=null){
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         /**
          * 稀疏数组转二位数组
