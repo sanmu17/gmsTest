@@ -7,11 +7,37 @@ import java.util.Stack;
 public class Stack_infixToSuffix {
 
     public static void main(String[] args) {
-        String s = infixToSuffix("3 + 5 - 4 * ( 4 + 5 ) ");
+        String s = infixToSuffix("30 + 50 - 4 * ( 4 + 50 ) ");
+        getList("3 + 5 - 4 * ( 4 + 5 ) ");
         System.out.println("后缀表达式："+s);
 
         int calculate = calculate(s);
         System.out.println("运算结果："+calculate);
+    }
+
+    public static List<String> getList(String s){
+//        String[] se = s.split(" ");
+        List<String> list = new ArrayList<>();
+//        for (String s1 : se) {
+//            list.add(s1);
+//        }
+        s=s.trim();
+        String s1="";
+        for (int i = 0; i < s.length(); i++) {
+            String t = String.valueOf(s.charAt(i));
+            if(getPriority(t)==0){
+                s1 = s1 + t;
+                continue;
+            }else {
+                if (!s1.equals(" ")) {
+                    s1=s1.trim();
+                    list.add(s1);
+                }
+                list.add(t.trim());
+                s1="";
+            }
+        }
+        return list;
     }
 
     public static String infixToSuffix(String s){
@@ -22,28 +48,28 @@ public class Stack_infixToSuffix {
         // 后面没有数据就将数字栈中数字依次压入符号栈，
         // 再将符号栈中数据依次弹出即为后缀表达式
         //"3 + 5 - 4 * ( 4 + 5 ) " -72 转为后缀表达式：3 5 + 4 5 + 4 * -,
-        String[] se = s.split(" ");
-        List<String> list = new ArrayList<>();
-        for (String s1 : se) {
-            list.add(s1);
-        }
+//        String[] se = s.split(" ");
+//        List<String> list = new ArrayList<>();
+//        for (String s1 : se) {
+//            list.add(s1);
+//        }
+
+        List<String> list = getList(s);
+        System.out.println("====="+list);
         String result = "";
 
-        Stack<String> numStack = new Stack<>();
+      Stack<String> numStack = new Stack<>();
         Stack<String> operStack = new Stack<>();
         for (String s1 : list) {
             if(s1.matches("\\d+")){
                 numStack.push(s1);
-//                System.out.println(s1);
             }else{
                 if(operStack.isEmpty()){
                     operStack.push(s1);
-                    System.out.println(s1);
                 }else {
                     String peek = operStack.peek();
                     if(getPriority(peek) < getPriority(s1)){
                         operStack.push(s1);
-                        operStack.push(numStack.pop());
                     }else{
                         String t = operStack.pop();
                         numStack.push(t);
@@ -69,11 +95,13 @@ public class Stack_infixToSuffix {
     static int getPriority(String s){
         int p = 0;
         if(s.equals("+")||s.equals("-")) {
-            p = 0;
-        }else if(s.equals("*")||s.equals("/")){
             p = 1;
-        }else{
+        }else if(s.equals("*")||s.equals("/")){
             p = 2;
+        }else if(s.equals("(")||s.equals(")")){
+            p = 3;
+        }else {
+            p = 0;
         }
         return p;
     }
@@ -87,7 +115,6 @@ public class Stack_infixToSuffix {
             list.add(s1);
         }
         Stack<String> stack = new Stack<>();
-        System.out.println(list);
         for (String s : list) {
             if(s.matches("\\d+")){//匹配到数字入栈
                 stack.push(s);
