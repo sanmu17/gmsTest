@@ -7,8 +7,8 @@ import java.util.Stack;
 public class Stack_infixToSuffix {
 
     public static void main(String[] args) {
-        String s = infixToSuffix("30 + 50 - 4 * ( 4 + 50 ) ");
-        getList("3 + 5 - 4 * ( 4 + 5 ) ");
+        String s = infixToSuffix("30+ 50 - (4 * ( 4 + 50 )) ");
+//        getList("3 + 5 - 4 * ( 4 + 5 ) ");
         System.out.println("后缀表达式："+s);
 
         int calculate = calculate(s);
@@ -21,7 +21,7 @@ public class Stack_infixToSuffix {
 //        for (String s1 : se) {
 //            list.add(s1);
 //        }
-        s=s.trim();
+        s=s.replace(" ","");
         String s1="";
         for (int i = 0; i < s.length(); i++) {
             String t = String.valueOf(s.charAt(i));
@@ -29,7 +29,7 @@ public class Stack_infixToSuffix {
                 s1 = s1 + t;
                 continue;
             }else {
-                if (!s1.equals(" ")) {
+                if (!s1.equals("")) {
                     s1=s1.trim();
                     list.add(s1);
                 }
@@ -70,6 +70,7 @@ public class Stack_infixToSuffix {
                     String peek = operStack.peek();
                     if(getPriority(peek) < getPriority(s1)){
                         operStack.push(s1);
+//                        operStack.push(numStack.pop());
                     }else{
                         String t = operStack.pop();
                         numStack.push(t);
