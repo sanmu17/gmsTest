@@ -1,6 +1,5 @@
 package com.sort;
 
-import org.assertj.core.util.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -317,7 +316,7 @@ public class EightSort {
         for (int i = 1; i <= maxBit; i++) {
             //根据第i位数字进行桶排序
             //初始化十个List进行桶排序的数据存放
-            List<List<Integer>> list = Lists.newArrayList();
+            List<List<Integer>> list =  new ArrayList<List<Integer>>();
             for (int j = 0; j < 10; j++) {
                 list.add(new ArrayList<>());
             }
