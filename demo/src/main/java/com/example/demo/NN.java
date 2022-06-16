@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.*;
+
 /**
  * 类描述：
  *
@@ -11,11 +13,35 @@ package com.example.demo;
  */
 public class NN {
     public static void main(String[] args) {
-        for (int i = 1; i < 10; i++) {
-            for (int j = 1; j < i + 1; j++) {
-                System.out.print(j + "*" + i + "=" + i * j + "\t");
+//        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1,o2)->o1[0]!=o2[0]?o2[0]-o1[0]:o2[1]-o1[1]);
+//        Deque<Integer> deque = new LinkedList<>();
+//        Scanner scanner = new Scanner(System.in);
+//        int n = scanner.nextInt();
+//        int[][] nums = new int[n][3];
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                nums[i][j] = scanner.nextInt();
+//            }
+//        }
+//        printNotWell(nums);
+        String s = "asd";
+        System.out.println(s.substring(0, 1) + "Q" + s.substring(2));
+    }
+
+    private static void printNotWell(int[][] nums) {
+        int count = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(i == j){
+                    continue;
+                }
+                if(nums[i][0] < nums[j][0] && nums[i][1] < nums[j][1] && nums[i][2] < nums[j][2]){
+                    count++;
+                    break;
+                }
             }
-            System.out.println();
         }
+        System.out.println(count);
     }
 }

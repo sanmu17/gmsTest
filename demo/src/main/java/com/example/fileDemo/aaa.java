@@ -2,6 +2,7 @@ package com.example.fileDemo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -19,24 +20,24 @@ public class aaa {
 
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-//        String path = "D:\\JAVA_STUDY";
-//        File file = new File(path);
-//        Map<String, Integer> map = new HashMap<>();
-//        getFileNumsss(file,map);
-//        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-//            System.out.println("文件类型:"+entry.getKey()+",\t文件数量"+entry.getValue());
-//        }
-
-        System.out.println("开始执行");
-        CountDownLatch countDownLatch = new CountDownLatch(5);
-        for (int i = 0; i < 5; i++) {
-            new Thread(()->{
-                System.out.println(Thread.currentThread().getName()+"线程执行");
-                countDownLatch.countDown();
-            }, String.valueOf(i)).start();
+        String path = "D:\\JAVA_STUDY";
+        File file = new File(path);
+        Map<String, Integer> map = new HashMap<>();
+        getFileNumsss(file,map);
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println("文件类型:"+entry.getKey()+",\t文件数量"+entry.getValue());
         }
-        countDownLatch.await();
-        System.out.println("主线程====执行完毕----------");
+
+//        System.out.println("开始执行");
+//        CountDownLatch countDownLatch = new CountDownLatch(5);
+//        for (int i = 0; i < 5; i++) {
+//            new Thread(()->{
+//                System.out.println(Thread.currentThread().getName()+"线程执行");
+//                countDownLatch.countDown();
+//            }, String.valueOf(i)).start();
+//        }
+//        countDownLatch.await();
+//        System.out.println("主线程====执行完毕----------");
 
 
     }

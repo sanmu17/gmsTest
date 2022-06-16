@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 类描述：
+ * 类描述：测试Integer中默认缓存-128~127范围的数。
  *
  * @ClassName streamDemo
  * @Description TODO
@@ -18,6 +18,12 @@ import java.util.stream.Collectors;
 public class streamDemo {
 
     public static void main(String[] args) {
+//        String str1 = "abc";
+//        String str2 = "abc";
+//        String str3 = str1 + str2;
+//        System.out.println(str3 == str1 + str2);
+
+
         List<String> items =
                 Arrays.asList("apple", "apple", "banana",
                         "apple", "orange", "banana", "papaya");
@@ -28,9 +34,12 @@ public class streamDemo {
                         )
                 );
         System.out.println(result);
-        Integer a = new Integer(1000);
-        Integer b = new Integer(1000);
-        System.out.println((a==1000)+","+(a==b));
+//        Integer a = new Integer(1);
+        Integer a = -129;
+//        Integer b = new Integer(1);
+        Integer b = -129;
+
+        System.out.println((a==-129)+","+(a==b));
 
     }
 }
