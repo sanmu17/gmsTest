@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DataStruct/DataStruct.iml" filepath="$PROJECT_DIR$/DataStruct/DataStruct.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JUC_Test/JUC_Test.iml" filepath="$PROJECT_DIR$/JUC_Test/JUC_Test.iml" />
+    </modules>
+  </component>
+</project>

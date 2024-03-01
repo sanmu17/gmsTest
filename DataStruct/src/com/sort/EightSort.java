@@ -38,7 +38,7 @@ public class EightSort {
      * 1、
      * 冒泡排序算法：
      * 1.将序列中所有的元素两两比较
-     * 2.将剩余序列的所有元素两两比较，将最大的放到最后面
+     * 2.将序列的所有元素两两比较，将最大的放到最后面
      * 3.重复第二步，直到最后一个数
      *
      * @param arr
@@ -330,6 +330,9 @@ public class EightSort {
                     arr[k++] = integer;
                 }
             }
+            System.out.println("第"+i+"伦排序：");
+            printSort(arr);
+            System.out.println();
         }
     }
 
