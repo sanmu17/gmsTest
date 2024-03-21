@@ -1,6 +1,7 @@
 package com.data;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.fill;
 
@@ -17,17 +18,112 @@ public class huaweiODQ {
 //
 //        System.out.println(maxScore(n,score,k));
 
-        int total = 100;
-        int n = scanner.nextInt();
-        List<Integer[]> mem = new ArrayList<>();
-        while (scanner.hasNextInt()) {
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            mem.add(new Integer[]{x, y});
+//getMinOffsetByMem
+//        int total = 100;
+//        int n = scanner.nextInt();
+//        List<Integer[]> mem = new ArrayList<>();
+//        while (scanner.hasNextInt()) {
+//            int x = scanner.nextInt();
+//            int y = scanner.nextInt();
+//            mem.add(new Integer[]{x, y});
+//        }
+//
+//        System.out.println(getMinOffsetByMem(total, n, mem));
+
+//        int n = scanner.nextInt();
+//        int[] gems = new int[n];
+//        for (int i = 0; i < n; i++) {
+//            gems[i] = scanner.nextInt();
+//        }
+//        int value = scanner.nextInt();
+//        System.out.println(maxGems(gems, value));
+
+//        System.out.println(minDifference(new Integer[]{13, 9, 8, 7, 6, 5, 4, 3, 2, 1}));
+
+        System.out.println(getMaxSum(7, new int[]{1, 6, 4, 7, 3, 6, 1}, 8));
+    }
+
+    private static int getMaxSum(int len, int[] nums, int k) {
+        if (len <= k) return Arrays.stream(nums).sum();
+        int[] res = new int[k];
+        int left = 0, right = len - 1;
+        int n = k;
+        int max = 0;
+        while (left < right && n > 0) {
+            if (nums[left] == nums[right]) {
+                while (left < right && nums[left] == nums[right] && n > 0) {
+                    max += nums[left];
+                    res[k - n] = max;
+                    n--;
+                    left++;
+                    right--;
+                }
+            } else {
+                max = Math.max(nums[left], nums[right]) + max;
+                res[k - n] = max;
+                n--;
+                left++;
+                right--;
+            }
         }
+        for (int re : res) {
+            System.out.print(re + "  ,");
+        }
+        System.out.println();
+        return res[k - 1];
+    }
 
-        System.out.println(getMinOffsetByMem(total, n, mem));
+    public static int minDifference(Integer[] scores) {
+        int[] visited = new int[scores.length];
+        int min = 0;
+        int sum = Arrays.stream(scores).mapToInt(a -> a).sum();
+        for (; min < sum; min++) {
+            int target = sum - min;
+            if (target % 2 == 0) {
+                if (dfs(target / 2, scores, 0, visited)) {
+                    return min;
+                }
+            }
+        }
+        return min;
+    }
 
+    private static boolean dfs(int target, Integer[] scores, int index, int[] visited) {
+        int len = scores.length;
+        if (index > 5 && target < 0) {
+            return false;
+        }
+        if (index == 5 && target == 0) {
+            return true;
+        }
+        for (int i = 0; i < len; i++) {
+            if (visited[i] != 0) {
+                continue;
+            }
+            visited[i] = 1;
+            if (dfs(target - scores[i], scores, index + 1, visited)) {
+                return true;
+            }
+            visited[i] = 0;
+        }
+        return false;
+    }
+
+    public static int maxGems(int[] gems, int value) {
+        if (gems.length == 0) return 0;
+
+        int max = 0;
+        for (int i = 0; i < gems.length; i++) {
+            int total = 0, count = 0;
+            int j = i;
+            while (j < gems.length && total + gems[j] <= value) {
+                total += gems[j];
+                count = j - i + 1;
+                j++;
+            }
+            max = Math.max(count, max);
+        }
+        return max;
     }
 
     /**

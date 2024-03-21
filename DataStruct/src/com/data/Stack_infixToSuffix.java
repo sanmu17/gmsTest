@@ -7,8 +7,10 @@ import java.util.Stack;
 public class Stack_infixToSuffix {
 
     public static void main(String[] args) {
-        String s = infixToSuffix("30+ 50 - (4 * ( 4 + 50 )) ");
-//        getList("3 + 5 - 4 * ( 4 + 5 ) ");
+//        String s = infixToSuffix("30+ 50 - (4 * ( 4 + 50 )) ");
+//        String s = infixToSuffix("3 + 4 - ( 5 * 8 ) / 7");
+        String s = infixToSuffix("3+4-(5*8)/7");
+
         System.out.println("后缀表达式：" + s);
 
         int calculate = calculate(s);
@@ -21,38 +23,41 @@ public class Stack_infixToSuffix {
      * @return 返回一个包含s中所有数字与操作符的List
      */
     public static List<String> getList(String s) {
-//        String[] se = s.split(" ");
         List<String> list = new ArrayList<>();
-//        for (String s1 : se) {
-//            list.add(s1);
-//        }
+
         s = s.replace(" ", "");
         String s1 = "";
         for (int i = 0; i < s.length(); i++) {
             String t = String.valueOf(s.charAt(i));
-            if (getPriority(t) == 0) {
+            if (getPriority(t) == 0) {//多位数拼接
                 s1 = s1 + t;
-                continue;
-            } else {
+            } else {//当前字符不为数字时
                 if (!s1.equals("")) {
                     s1 = s1.trim();
                     list.add(s1);
+                    s1 = "";
                 }
                 list.add(t.trim());
-                s1 = "";
             }
+
         }
+        list.add(s1);
         return list;
     }
 
     /**
-     *         //"3+4-5*8"--->" 3 4 + 5 8 * - "
-     *         //将3和4压入数字栈再压入+
-     *         // 将-压入符号栈，将5压入数字栈
-     *         // *优先级比-高压入符号栈 再将8压入数字栈
-     *         // 后面没有数据就将数字栈中数字依次压入符号栈，
-     *         // 再将符号栈中数据依次弹出即为后缀表达式
-     *         //"3 + 5 - 4 * ( 4 + 5 ) " -72 转为后缀表达式：3 5 + 4 5 + 4 * -,
+    *         simple:3+4-(5*8)/7
+    *         res: 3 4 + 4 5 7 / + -
+    *         step1: numStack:3 4     operStack:+    遇到-操作符与+优先级一致，将+从符号栈弹出放入数字栈，再将-放入符号栈
+    *         step2: numStack:3 4 +   operStack:-
+    *         step3: numStack:3 4 + 4  operStack:- ( 遇到+操作符比符号栈(优先小，将（从符号栈弹出放入数字栈，再将+放入符号栈
+    *         step4: numStack:3 4 + 4 (  operStack:- +
+    *         step5: numStack:3 4 + 4 ( 5  operStack:- + )
+    *         step6: numStack:3 4 + 4 ( 5  ) 7  operStack:- + /
+    *         step7: numStack->operStack:- + / 7 ) 5 ( 4 + 4 3
+    *         step8:operStack依次pop(省略“(”，“)”):3 4 + 4 5 7 / + -
+     *
+     *
      * @param s
      * @return 后缀表达式（逆波兰表达式）
      */
@@ -75,7 +80,6 @@ public class Stack_infixToSuffix {
                     //比较符号栈中首个符号的优先级与即将压入符号栈中的元素的优先级，peek优先级<s1，就直接放入符号栈
                     if (getPriority(peek) < getPriority(s1)) {
                         operStack.push(s1);
-//                        operStack.push(numStack.pop());
                     } else {
                         //否则，将符号栈栈顶元素放入数字栈，再将s1放入符号栈
                         String t = operStack.pop();
@@ -111,8 +115,6 @@ public class Stack_infixToSuffix {
             p = 2;
         } else if (s.equals("(") || s.equals(")")) {
             p = 3;
-        } else {
-            p = 0;
         }
         return p;
     }
@@ -131,12 +133,9 @@ public class Stack_infixToSuffix {
      */
     public static int calculate(String suffix) {
         String[] se = suffix.split(" ");
-        List<String> list = new ArrayList<>();
-        for (String s1 : se) {
-            list.add(s1);
-        }
+
         Stack<String> stack = new Stack<>();
-        for (String s : list) {
+        for (String s : se) {
             if (s.matches("\\d+")) {//匹配到数字入栈
                 stack.push(s);
             } else {
